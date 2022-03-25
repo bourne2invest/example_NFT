@@ -1,0 +1,19 @@
+{
+  "name": "example_nft",
+  "version": "1.0.0",
+  "description": "An example NFT template.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bourne2invest/example_NFT.git"
+  },
+  "author": "Creative Dev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bourne2invest/example_NFT/issues"
+  },
+  "homepage": "https://github.com/bourne2invest/example_NFT#readme"
+}

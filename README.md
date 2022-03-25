@@ -138,3 +138,92 @@ About to write to /home/user/Code/example_NFT/package.json:
 Last, but certainly not least, approve the `package.json` and it's off to the races!
 
 ## 7. Install Hardhat.
+Hardhat is a development environment to compile, test, deploy and debug our Ethereum software.
+It is helpful for building smart contracts and dApps locally before deploying to the mainnet.
+It is used through a local installation at the project-level, and helps us make reproducible environments to avoid future version conflicts.
+
+At the root of our project repo run:
+```
+npm install --save-dev hardhart
+```
+
+## 8. Create Hardhat project.
+We will use `npx` to run our local installation of Hardhat.
+At the root of our project folder run:
+```
+npx hardhat
+```
+
+We will see a welcome message. 
+Select the option "create an empty hardhat.config.js".
+This will create a hardhat.config.js file, which is where we will structure our project.
+
+## 9. Add project folders.
+We will organize our project with folders.
+At the root of our project repo, create directories for `contracts` and `scripts`:
+```
+mkdir contracts
+mkdir scripts
+```
+
+In `contracts/` we will keep our NFT smart contract code.
+In `scripts/` we will keep scripts to deploy and interact with our smart contract.
+
+## 10. Write our contract.
+Now that we have successfully set up our NFT development environment, it's time for the fun stuff: developing our smart contract code!
+
+In the contracts folder, create a new file called `ExampleNFT.sol` If you are using an IDE like VSCode, you'll probably need a solidity or Ethereum extension.
+
+Usually, at the beginning of a Solidity smart contract file, you'll see a line:
+```
+pragma solidity ^0.8.0;
+```
+This line sets the version of Solidity the contract will be written in.
+
+Next, the lines,
+```
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+```
+will allow us to leverage existing and packaged smart contract code from the OpenZeppelin contracts library.
+This will allow us to simplify our smart contracts and not have to re-invent the wheel so to speak (like using `pandas`, `numpy`, `seaborn`, `sklearn`, etc).
+
+Let's break it down further:
+```
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+```
+This file contains the implementation of the ERC-721 standard, which our NFT smart contract will inherit.
+All smart contracts must implement methods of the ERC-721 standard to be a valid NFT.
+
+```
+import "@openzeppelin/contracts/utils/Counters.sol";
+```
+This file provides counters that can only be incremented or decremented by one.
+Our smart contract will use a counter to keep track of the total number of NFTs minted, and set the unique IDs on our NFTs.
+For e.g: unique IDs will be determined by the total number of NFTs, and so our first NFT minted will have the ID "1", and so on.
+
+```
+import "@openzeppelin/contracts/access/Ownable.sol";
+```
+This allows us to use "access control" on our smart contract, so only the owner of the smart contract (you) can mint NFTs.
+To allow any party to mint an NFT using our smart contract, remove the word `Ownable` on `line 10`, and `onlyOwner` on `line 17`.
+
+After our imports, we have our custom example NFT smart contract.
+This is a simple contract which contains only a counter, constructor, and single function.
+Again, this is because we are leveraging functionality from OpenZeppelin contracts library, which implements methods needed to create an NFT for us.
+For e.g: `ownerOf` which returns the owner of the NFT, and `transferFrom`, which transfers owndership of the NFT from one account to another.
+
+In our ERC-721 constructor, we pass 2 strings: "ExampleNFT" and "NFT". 
+The first variable is the smart contract's name.
+The second variable is the contract's symbol.
+
+Finally our mint function, `mintNFT`, which actually allows us to mint our NFT, accepts 2 variables:
+`address recipient` specifies the address that will receive the newly minted NFT.
+`string memory tokenURI` is a string which resolves to a JSON describing the NFT metadata.
+I.e: `string memory tokenURI` is responsible for the name, description, image, etc. you see on OpenSea or LooksRare.
+
+`mintNFT` actually calls methods from the ERC-721 libraries we imported and finally returns a number (`uint256`) which represents the ID of the minted NFT.
+
+## 11. Connect Metamask and Alchemy to our project.

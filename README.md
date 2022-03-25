@@ -45,12 +45,10 @@ Now, change your current directory to the project directory with `cd example_NFT
 Now at the root of our project folder, we'll use npm to initialize the project.
 
 To install npm, follow these instructions: https://docs.alchemy.com/alchemy/guides/alchemy-for-macs#1-install-nodejs-and-npm.
-Open a new terminal and in your home/user (`cd ~`) directory run the command:
+Open a new terminal and in your `/home` directory run the command:
 `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`.
-Next, we will need to add Homebrew to our `PATH` with the following commands:
-`echo 'eval "$(/home/jmosquera/.linuxbrew/bin/brew shellenv)"' >> /home/jmosquera/.zprofile`
-and
-`eval "$(/home/jmosquera/.linuxbrew/bin/brew shellenv)"`.
+Next, we will need to permanently add Homebrew to our `PATH` by placing the following in our `.zshrc` or `.bashrc` files:
+`echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/user/.zprofile && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"`.
 We can test our installation with
 `brew help`,
 or

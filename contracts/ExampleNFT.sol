@@ -1,4 +1,4 @@
-//Contract based on [https://docs.openzeppelin.com/contracts/3.x/erc721](https://docs.openzeppelin.com/contracts/3.x/erc721)
+// Contract based on [https://docs.openzeppelin.com/contracts/3.x/erc721](https://docs.openzeppelin.com/contracts/3.x/erc721)
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0; //set solidity version
 
@@ -15,9 +15,8 @@ contract ExampleNFT is ERC721URIStorage, Ownable {
 
     // init constructor,
     // requires contract name and symbol
+    // inherits from ERC721URIStorage contract
     constructor() ERC721("ExampleNFT", "NFT") {}
-
-    //inherits from ERC721URIStorage contract
 
     // create function mintNFT, requires:
     // 1. an address, recipient, which will receive the minted NFT

@@ -35,46 +35,74 @@ If everything worked correctly, we should see a response like this:
 Note: this result is in wei, not ETH. 1 Ether = 1000000000000000000 Wei (10^-18). 
 If we convert the result from hexadecimal to decimal, we should get 5200000000000000000 Wei = 5.2 ETH.
 
+We can also check our balance in our Metamask while on the Ropsten Test Network, or on the Ropsten Testnet Explorer: https://ropsten.etherscan.io/.
+
 ## 6. Initialize our project.
 Clone this or your NFT git repository, or make a new directory for your NFT project in your workspace (directory of choice), e.g: `/home/user/Code/example_NFT`.
-Now, change your current directory to the project directory with `cd example_NFT`.
-
-Now at the root of our project folder, we'll use npm to initialize the project.
 
 To install npm, follow these instructions: https://docs.alchemy.com/alchemy/guides/alchemy-for-macs#1-install-nodejs-and-npm.
 Open a new terminal and in your `/home` directory run the command:
-`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`.
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
 Next, we will need to permanently add Homebrew to our `PATH` by placing the following in our `.zshrc` or `.bashrc` files:
-`echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/user/.zprofile && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"`.
+```
+echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/user/.zprofile && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+```
+
 We can test our installation with
-`brew help`,
+```
+brew help
+```
 or
-`brew install hello`.
-Next, instll `NodeJS` and `npm` using Homebrew (npm will be installed with Node):
-`brew install node`.
-You can now run Javascript in the terminal:
-`node`.
+```
+brew doctor
+```
+
+Next, install `NodeJS` and `npm` using Homebrew (npm will be installed with Node) with:
+```
+brew install node
+```
+You can now run Javascript in the terminal by running the command:
+```
+node
+```
 
 ### Optionally, we may want to install Alchemy Web3:
 Alchemy Web3 is a drop-in replacement for web3.js, built and configured to work seamlessly with Alchemy (e.g: automatic retries and WebSocket support).
-If you wish to do so,, in the command line in your home directory run:
-`npm install @alch/alchemy-web3`.
+If you wish to do so, in the command line in your home directory run:
+```
+npm install @alch/alchemy-web3
+```
 
 ### Optionally, install WebSockets:
 WebSockets are a way to subscribe to events and changes. First, install WebSocket cat:
-`npm install -g wscat`.
-Now connect to Alchemy's infrastructure using WebSockets with:
-`wscat -c wss://eth-mainnet.ws.alchemyapi.io/ws/demo`
-or
-`wscat -c wss://eth-mainnet.alchemyapi.io/ws/<api-key>`.
-Create a Web3 instance and set your provider as Alchemy:
-`const web3 = new Web3("wss://eth-mainnet.ws.alchemyapi.io/ws/demo");`
+```
+npm install -g wscat
+```
 
-Finally, after all those installations, in the root of our project repo run the command: `npm init`.
-This will walk us through making a `package.js` file.
+Now connect to Alchemy's infrastructure using WebSockets with:
+```
+wscat -c wss://eth-mainnet.ws.alchemyapi.io/ws/demo
+```
+or
+```
+wscat -c wss://eth-mainnet.alchemyapi.io/ws/<api-key>
+```
+Create a Web3 instance and set your provider as Alchemy:
+```
+const web3 = new Web3("wss://eth-mainnet.ws.alchemyapi.io/ws/demo");
+```
+
+### Finally, after all those installations, in the root of our project repo run the command:
+```
+npm init
+```
+This will walk us through making a `package.js` file, and will initialize the project.
 
 Here is how we answered the installation questions:
-`
+```
 package name: (example_nft) 
 version: (1.0.0) 
 description: An example NFT template.
@@ -105,7 +133,7 @@ About to write to /home/user/Code/example_NFT/package.json:
   },
   "homepage": "https://github.com/bourne2invest/example_NFT#readme"
 }
-`
+```
 
 Last, but certainly not least, approve the `package.json` and it's off to the races!
 

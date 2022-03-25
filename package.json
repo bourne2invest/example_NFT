@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/bourne2invest/example_NFT/issues"
   },
-  "homepage": "https://github.com/bourne2invest/example_NFT#readme"
+  "homepage": "https://github.com/bourne2invest/example_NFT#readme",
+  "devDependencies": {
+    "hardhat": "^2.9.2"
+  }
 }

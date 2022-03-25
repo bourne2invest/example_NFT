@@ -11,4 +11,8 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 contract ExampleNFT is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
+
+    constructor() ERC721("ExampleNFT", "NFT") {}
+    // first var is smart contract's name
+    // second var is the smart contract symbol
 }

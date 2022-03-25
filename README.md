@@ -19,24 +19,21 @@ I named my app "Example NFT", chose the "Staging" environment and "Ropsten" test
 ## 3. Create an Ethereum Account (Address).
 We'll want to make a new Ethereum address which will be associated with our NFT project and contract.
 
-Note: It is important to have separate wallets to promote safety and security of one's assets. 
-For example, it is wise to have 3 wallets minimum--one for minting, one for listings/sales, and a cold storage vault. 
-However, contract wallets should remain separate from personal wallets to ensure transparency and accurate measurement of KPIs.
-
 Having made a new Ethereum wallet address, "Example NFT Wallet", make sure to switch over to the "Ropsten Test Network" (allows us to not use real funds).
 
 ## 4. Add Ether from a Faucet.
 We'll need some fake ETH in order to deploy our smart contract on the test network.
 
-Visit https://fauceth.komputing.org/, enter your Ropsten account address, click "Request funds", select "Ethereum Testnet Ropsten, and voila!
+If you have a Google account you can get up to 5 Ropsten testnet ETH at a time from https://ropsten.oregonctf.org/. 
+Another faucet is https://faucet.egorfine.com/, which limits you to .2 rETH per day.
 
 ## 5. Check your balance.
 We can check our balance by making an `eth_getBalance` request using Alchemy' composer tool.
 If everything worked correctly, we should see a response like this:
-`{"jsonrpc": "2.0", "id": 0, "result": "0xde0b6b3a7640000"}`
+`{"jsonrpc": "2.0", "id": 0, "result": "0x482a1c7300080000"}`
 
 Note: this result is in wei, not ETH. 1 Ether = 1000000000000000000 Wei (10^-18). 
-If we convert the balance to a float we should get 1*10^18 Wei = 1 ETH.
+If we convert the result from hexadecimal to decimal, we should get 5200000000000000000 Wei = 5.2 ETH.
 
 ## 6. Initialize our project.
 Clone this or your NFT git repository, or make a new directory for your NFT project in your workspace (directory of choice), e.g: `/home/user/Code/example_NFT`.
@@ -74,30 +71,39 @@ Create a Web3 instance and set your provider as Alchemy:
 `const web3 = new Web3("wss://eth-mainnet.ws.alchemyapi.io/ws/demo");`
 
 Finally, after all those installations, in the root of our project repo run the command: `npm init`.
+This will walk us through making a `package.js` file.
 
 Here is how we answered the installation questions:
 `
-package name: (example_NFT)
-version: (1.0.0)
-description: 
-entry point: (index.js)
-test command:
-git repository: https://github.com/bourne2invest/example_NFT.git
-keywords:
-author:
-license: (ISC)
+package name: (example_nft) 
+version: (1.0.0) 
+description: An example NFT template.
+entry point: (index.js) 
+test command: 
+git repository: (https://github.com/bourne2invest/example_NFT.git) 
+keywords: 
+author: Creative Dev
+license: (ISC) 
 About to write to /home/user/Code/example_NFT/package.json:
 
 {
-  "name": "example_NFT",
+  "name": "example_nft",
   "version": "1.0.0",
-  "description": "",
+  "description": "An example NFT template.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bourne2invest/example_NFT.git"
+  },
+  "author": "Creative Dev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bourne2invest/example_NFT/issues"
+  },
+  "homepage": "https://github.com/bourne2invest/example_NFT#readme"
 }
 `
 

@@ -227,3 +227,57 @@ I.e: `string memory tokenURI` is responsible for the name, description, image, e
 `mintNFT` actually calls methods from the ERC-721 libraries we imported and finally returns a number (`uint256`) which represents the ID of the minted NFT.
 
 ## 11. Connect Metamask and Alchemy to our project.
+Now that we have a MetaMask wallet, Alchemy account and a smart contract, it's time to connect all three.
+Every txn sent from your wallet requires a signature using your unique private key.
+In order to provide our program with this permission, we can safely store our private key (and Alchemy API key) in an environment file.
+
+First, intall the `dotenv` package in our project dir:
+```
+npm install dotenv --save
+```
+
+Now, create a `.env` file in the root of our project, and we will add our MetaMask private key and HTTP Alchemy API URL.
+Our `.env` should now look like this:
+```
+API_URL="https://eth-ropsten.alchemyapi.io/v2/your-api-key"
+PRIVATE_KEY="your-metamask-private-key"
+```
+
+Now, to actually connect these to our code, we'll reference these variables in our `hardhat.config.js` file in step 13.
+
+## 12. Install Ethers.js
+Ethers.js is a library which makes interacting and making requests to the Ethereum network easier by wrapping the standard JSON-RPC methods with ones that are more user friendly.
+Hardhat makes it easy to integrate plugins for additional functionality.
+We'll be using the Ethers plugin for contract deployment.
+
+In our project root dir type:
+```
+npm install --save-dev @nomiclabs/hardhat-ethers ethers@^5.0.0
+```
+
+## 13. Update hardhat.config.js
+Now that we have added several dependencies and plugins, we need to update our `hardhat.config.js` so our project knows about them.
+
+Update your `hardhat.config.js` so it looks like the following:
+```
+/**
+ * @type import('hardhat/config').HardhatUserConfig
+ */
+require('dotenv').config();
+require("@nomiclabs/hardhat-ethers");
+const { API_URL, PRIVATE_KEY } = process.env;
+module.exports = {
+  solidity: "0.8.1",
+  defaultNetwork: "ropsten",
+  networks: {
+    hardhat: {},
+    ropsten: {
+      url: API_URL,
+      accounts: [`0x${PRIVATE_KEY}`]
+    }
+  }
+};
+
+```
+
+## 14. Compile our contract

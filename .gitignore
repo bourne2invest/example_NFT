@@ -1,2 +1,6 @@
 node_modules
 .env
+
+# Hardhat compile files
+artifacts
+cache

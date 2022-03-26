@@ -414,3 +414,33 @@ Once you've signed up for a free account:
 - Navigate to the "Files" page and click the blue "Upload" at the top-left
 - Upload an image to pinata--this will be the image asset for your NFT. Feel free to name it whatever your heart desires
 - After uploading, you should see the file info in the table on the Files page. You'll also see a CID column. You can view the upload at: `https://gateway.pinata.cloud/ipfs/<CID>`.
+
+We'll need to upload one more file to Pinata, but we need to make it first.
+
+In our repo root, make a new file `nft-metadata.json` and add the following json code:
+```
+{
+  "attributes": [
+    {
+      "trait_type": "Subject",
+      "value": "Sapling"
+    },
+    {
+      "trait_type": "Filter",
+      "value": "Dusk"
+    },
+    {
+      "trait_type": "Background",
+      "value": "Brick Vegetation"
+    }
+  ],
+  "description": "An Example NFT Collection. This NFT is of a small tree branching out.",
+  "image": "https://gateway.pinata.cloud/ipfs/QmNWCeWyJQkuJuKj4iw1dokGhQ5Qf1qDmYVK9X1PdNwWox",
+  "name": "Example NFT #1"
+}
+```
+
+Once you had made your desired edits to the json file, save it and upload it to Pinata.
+We will follow the same steps we did for uploading the image.
+
+## 5. Create an instance of our contract.

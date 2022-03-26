@@ -1,0 +1,19 @@
+{
+    "attributes": [
+        {
+            "trait_type": "Subject",
+            "value": "Sapling"
+        },
+        {
+            "trait_type": "Filter",
+            "value": "Dusk"
+        },
+        {
+            "trait_type": "Background",
+            "value": "Brick Vegetation"
+        }
+    ],
+    "description": "An Example NFT Collection. This NFT is of a small tree branching out.",
+    "image": "https://gateway.pinata.cloud/ipfs/QmNWCeWyJQkuJuKj4iw1dokGhQ5Qf1qDmYVK9X1PdNwWox",
+    "name": "Example NFT #1"
+}

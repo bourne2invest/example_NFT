@@ -308,3 +308,35 @@ Compiled 13 Solidity files successfully
 ```
 
 ## 15. Write our Deploy script.
+Now that we have a working contract which will compile, and our configuration files are set, it's time to write a script which will deploy our contract on the ethereum (test) network.
+In the `scripts` directory, make a file `deploy.js` like this:
+```
+async function main() {
+  const ExampleNFT = await ethers.getContractFactory("ExampleNFT")
+
+  // start deployment, return promise resolving to contract object
+  const exampleNFT = await ExampleNFT.deploy()
+  await exampleNFT.deployed()
+  console.log("Contract deployed to address:", exampleNFT.address)
+}
+
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })
+```
+
+Let's break it down:
+```
+const ExampleNFT = await ethers.getContractFactory("ExampleNFT");
+```
+A `ContractFactory` in ethers.js is an abstraction used to deploy new smart contracts, so `ExampleNFT` here is a factory for instances of our NFT contract.
+```
+const exampleNFT = await ExampleNFT.deploy();
+```
+Calling `.deploy()` on a ContractFactory will start the deployment, and return a Promise that resolves to a Contract.
+This is the object that has a method for each of our smart contract functions.
+
+## 16. Deploy our contract

@@ -1,7 +1,8 @@
 # example_NFT
+## NFT from A to Z
 An example NFT project with corresponding solidity smart contract code.
 
-# NFT from A to Z
+# Part 1: How to write & deploy an NFT smart contract.
 In this repository, we will go over how to write and deploy an NFT ERC-721 smart contract on the Ropsten test network. 
 
 We will use MetaMask, Solidity, Hardhat, Pinata, and Alchemy.
@@ -360,3 +361,56 @@ To understand what happened under the hood, we can check the Explorer tab in our
 We'll see that Hardhat/Ethers made JSON-RPC calls for us when we called the `.deploy()` function:
 - eth_sendRawTransaction: request to actually write our smart contract onto the Ropsten chain, and
 - eth_getTransactionByHash: request to read information about our transaction given the hash (typical pattern when sending transactions).
+
+# Part 2: How to mint an NFT.
+Beeple, 3LAU, and Grimes all minted their NFTs using Alchemy's API.
+
+"Minting an NFT" is the act of publishing a unique instance of our ERC-721 token on the blockchain.
+Using our smart contract from Part 1, we will flex our web3 skills and mint an NFT.
+
+## 1. Install Web3
+Web3 is similar to Ethers, it's a library which makes creating requests to the Ethereum blockchain easier.
+In this tutortial, we will use Alchemy Web3, which is an enhanced web3 library that offers *automatic retries* and robust *WebSocket support*.
+
+In our repo root, run:
+```
+npm install @alch/alchemy-web3
+```
+
+## 2. Create a mint-nft.js file.
+In our scripts directory, create a `mint-nft.js` file:
+```
+require("dotenv").config()
+const API_URL = process.env.API_URL
+const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
+const web3 = createAlchemyWeb3(API_URL)
+
+```
+
+## 3. Grab your contract ABI
+A contract ABI (Application Binary Interface) is the interface to interact with our smart contract.
+Hardhat automatically generates an ABI for us and saves it in the ExampleNFT.json file.
+In order to use this, we'll need to parse out the contents by adding the following to our `mint-nft.js` file:
+```
+const contract = require("../artifacts/contracts/ExampleNFT.sol/ExampleNFT.json")
+```
+To see the ABI we can print it in the console:
+```
+console.log(JSON.stringify(contract.abi))
+```
+To run `mint-nft.js` and see your ABI printed to the console navigate to your terminal and run:
+```
+node scripts/mint-nft.js
+```
+
+## 4. Configure the metadata for your NFT using IPFS
+Recall that our `mintNFT` smart contract function accepts a `tokenURI` param that should resolve to a JSON document describing the NFT's metadata.
+This JSON is what actually brings to life the NFT, giving it configurable properties such as a name, description, image, and other attributes.
+
+*Interplanetary File System (IPFS) is a decentralized protocol and peer-to-peer network for storing and sharing data in a distributed file system.*
+
+We will use Pinata, a convenient IPFS API and toolkit, to store our NFT asset and metadata to ensure our NFT is truly decentralized.
+Once you've signed up for a free account:
+- Navigate to the "Files" page and click the blue "Upload" at the top-left
+- Upload an image to pinata--this will be the image asset for your NFT. Feel free to name it whatever your heart desires
+- After uploading, you should see the file info in the table on the Files page. You'll also see a CID column. You can view the upload at: `https://gateway.pinata.cloud/ipfs/<CID>`.

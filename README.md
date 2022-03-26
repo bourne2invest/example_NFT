@@ -281,3 +281,30 @@ module.exports = {
 ```
 
 ## 14. Compile our contract
+In order to make sure everything works so far, we need to compile our contract. 
+Fortunately, the compile task is built-in to hardhat.
+Simply run:
+```
+npx hardhat compile
+```
+
+Note: I got a warning saying I am using a version of Node.js note supported by Hardhat.
+I checked my version with
+```
+node --version
+>>> v17.8.0
+```
+I ended up trying to update this with:
+```
+brew update
+brew doctor
+brew upgrade node
+```
+but I got an error "Warning: node 17.8.0 is already installed.
+So I am just going to ignore this for now given that the other message I got from running `npx hardhat compile` was:
+```
+Downloading compiler 0.8.1
+Compiled 13 Solidity files successfully
+```
+
+## 15. Write our Deploy script.

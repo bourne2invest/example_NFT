@@ -444,3 +444,16 @@ Once you had made your desired edits to the json file, save it and upload it to 
 We will follow the same steps we did for uploading the image.
 
 ## 5. Create an instance of our contract.
+To interact with our contract, we need to create an instance of it in our code.
+We will need our contract address to do this.
+
+Use the web3 `contract` method to create our contract using the ABI and address.
+Add the following to our `mint-nft.js` file:
+```
+const contractAddress = 
+"0x6fc3a7ab7c9e3f2dd387b71ab942bb4694cc578e"
+
+const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
+```
+
+## 6. Update the .env file

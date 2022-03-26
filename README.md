@@ -340,3 +340,23 @@ Calling `.deploy()` on a ContractFactory will start the deployment, and return a
 This is the object that has a method for each of our smart contract functions.
 
 ## 16. Deploy our contract
+We're finally ready to deploy our contract!
+Make sure you are at the repo root and run the command:
+```
+npx hardhat --network ropsten run scripts/deploy.js
+```
+Then, we should see something like this:
+```
+Contract deployed to address:
+0x6fC3a7ab7C9E3F2Dd387B71aB942bb4694Cc578e
+```
+If we go to Ropsten etherscan block explorer, searching for our contract address we'll see it has been deployed successfully.
+The From address should match your MetaMask account and the To address will say "Contract Creation".
+If we click the Txn Hash, we should see a status that our MM address successfully created this contract.
+
+YASSSSSS! We just deployed our first NFT smart contract to the Ethereum chain!!!
+
+To understand what happened under the hood, we can check the Explorer tab in our Alchemy dashboard.
+We'll see that Hardhat/Ethers made JSON-RPC calls for us when we called the `.deploy()` function:
+- eth_sendRawTransaction: request to actually write our smart contract onto the Ropsten chain, and
+- eth_getTransactionByHash: request to read information about our transaction given the hash (typical pattern when sending transactions).

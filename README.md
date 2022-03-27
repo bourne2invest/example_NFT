@@ -457,3 +457,54 @@ const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
 ```
 
 ## 6. Update the .env file
+To create and send txns on the Ethereum chain, we will use the public ehtereum account address to get the account none.
+
+Add your public key to your `.env` like so:
+```
+API_URL = "https://eth-ropsten.alchemyapi.io/v2/your-api-key"
+PRIVATE_KEY = "your-private-account-address"
+PUBLIC_KEY = "your-public-account-address"
+```
+
+## 7. Create your transaction
+Let's define a function named `mintNFT(tokenData)` and create our txn by doing the following:
+  1. Grab your `PRIVATE_KEY` and `PUBLIC_KEY` from the `.env.` file.
+  2. Determine the account nonce. The nonce keeps track of the number of txns sent from our address.
+  3. Set up our txn with the following info:
+     1. 'from': `PUBLIC_KEY` - origin of our tnx is our public address
+     2. 'to': `contractAddress` - the contract we wish to interact with and send the txn
+     3. 'nonce': `nonce` - the account nonce with the number of txns sent from our address. It is also crucial for security purposes and to prevent replay attacks. We will use getTransactionsCount to get this value.
+     4. 'gas': `estimatedGas` - the estimated gas needed to complete the txn
+     5. 'data': `nftContract.methods.mintNFT(PUBLIC_KEY, md).econdeABI()` - the computation we wish to perform in this txn (in this case, minting an NFT)
+
+Our `mint-nft.js` file shuld now look like this:
+```
+require("dotenv").config();
+const API_URL = process.env.API_URL;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const PUBLIC_KEY = process.env.PUBLIC_KEY;
+
+const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
+const web3 = createAlchemyWeb3(API_URL);
+
+const contract = require("../artifacts/contracts/ExampleNFT.sol/ExampleNFT.json");
+// console.log(JSON.stringify(contract.abi));
+const contractAddress =
+    "0x6fc3a7ab7c9e3f2dd387b71ab942bb4694cc578e";
+const nftContract = new web3.eth.Contract(contract.abi, contractAddress);
+
+async function mintNFT(tokenURI) {
+    const nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, 'latest'); //get latest nonce
+
+    //the transaction
+    const tx = {
+        'from': PUBLIC_KEY,
+        'to': contractAddress,
+        'nonce': nonce,
+        'gas': 500000, //seems like a bad practice..?
+        'data': nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI()
+    };
+}
+```
+
+## 8. Sign the transaction.

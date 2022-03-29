@@ -659,3 +659,16 @@ Fin! We've officially deployed AND minted an NFT with our own smart contract on 
 We can mint as many NFTs as our heart desires, but be sure to pass in a new tokenURI each time describing the metadata--otherwise, we'll end up making a bunch of identical NFTs with different IDs.
 
 # Part.3 How to view your new NFT in your wallet.
+Open your Metamask iOS/Android app.
+Click the NFTs tab, and if it doesn't refresh, click "Import NFTs" and enter our contract address and token ID:
+```
+0x6fc3a7ab7c9e3f2dd387b71ab942bb4694cc578e
+```
+and
+```
+1
+```
+
+Once we refresh it should show up!
+
+# We have now successfully delpoyed and minted an NFT smart contract and we can even view the end result like a end user would!

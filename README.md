@@ -508,3 +508,53 @@ async function mintNFT(tokenURI) {
 ```
 
 ## 8. Sign the transaction.
+We need to sign the transaction we just made in order to send it off.
+
+To get the transaction hash, we can use `web3.ethsendSignedTransaction`, which help us check if our txn was mined and wasn't dropped by the network.
+In the txn signing section, we've added some error checking so we know if the txn was successful:
+```
+const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
+signPromise
+    .then((signedTx) => {
+        web3.eth.sendSignedTransaction(
+            signedTx.rawTransaction,
+            function (err, hash) {
+                if (!err) {
+                    console.log(
+                        "The hash of your transaction is: ",
+                        hash,
+                        "\nCheck Alchemy's Mempool to view the status of your transaction!"
+                    )
+                } else {
+                    console.log(
+                        "Something went wrong when submitting your transaction:",
+                        err
+                    )
+                }
+            }
+        )
+    })
+    .catch((err) => {
+        console.log(" Promise failed:", err)
+    })
+```
+The above code declares a constant `signPromise`, which is an instance of the `signTransaction` method from the `web3.eth.accounts` library.
+Notice how it accepts 2 parameters, the `tx` we previously defined and our `PRIVATE_KEY` from our `.env` file.
+
+This `signPromise` is called, with a `.then()`-`.catch()` clause (this looks similar to a `try-except` in Python).
+If we receive a `signedTx`, then the function `web3.eth.sendSignedTransaction` is called, and to it, we pass the `signedTx.rawTransaction`, and a user-defined function `function (err, hash)`.
+
+This function, `function (err, hash)` accepts two parameters `err` and `hash`:
+- `err` is the error message received, should we encounter an error.
+- `hash` is produced with `web3.eth.sendSignedTransaction`, and is our tx hash (how we can find our tx on the blockchain to determine if our tx succeeded).
+If `function` does not receive `err`, then it prints to the log 
+```
+"The hash of your txn is: ", hash, "Check Alchemy's Mempool to view the status of your txn."
+```
+Otherwise, if `function` receives `err`, then it produces the following messages:
+```
+"Something went wrong when submitting your transaction: {err}"
+"Promise failed: {err}"
+```
+
+## 9. Call mintNFT and run node mint-nft.js

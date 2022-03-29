@@ -1,6 +1,7 @@
 node_modules
 .env
 Test_NFTs
+scripts/sign_tx.js
 
 # Hardhat compile files
 artifacts

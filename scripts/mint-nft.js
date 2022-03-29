@@ -23,4 +23,29 @@ async function mintNFT(tokenURI) {
         'gas': 500000, //seems like a bad practice..?
         'data': nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI()
     };
+
+    const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
+    signPromise
+        .then((signedTx) => {
+            web3.eth.sendSignedTransaction(
+                signedTx.rawTransaction,
+                function (err, hash) {
+                    if (!err) {
+                        console.log(
+                            "The hash of your transaction is: ",
+                            hash,
+                            "\nCheck Alchemy's Mempool to view the status of your transaction!"
+                        )
+                    } else {
+                        console.log(
+                            "Something went wrong when submitting your transaction:",
+                            err
+                        )
+                    }
+                }
+            )
+        })
+        .catch((err) => {
+            console.log(" Promise failed:", err)
+        })
 }

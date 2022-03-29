@@ -558,3 +558,104 @@ Otherwise, if `function` receives `err`, then it produces the following messages
 ```
 
 ## 9. Call mintNFT and run node mint-nft.js
+Next, we need to get the hashcode for the `nft-metadata.json` we uploaded to Pinata.
+Double check that the hashcode we copied actually links to our `nft-metadata.json` by visiting `https://gateway.pinata.cloud/ipfs/<metadata-hash-code>` in a browser.
+It should look exactly like our file:
+```
+{
+    "attributes": [
+        {
+            "trait_type": "Subject",
+            "value": "Sapling"
+        },
+        {
+            "trait_type": "Filter",
+            "value": "Dusk"
+        },
+        {
+            "trait_type": "Background",
+            "value": "Brick Vegetation"
+        }
+    ],
+    "description": "An Example NFT Collection. This NFT is of a small tree branching out.",
+    "image": "https://gateway.pinata.cloud/ipfs/QmNWCeWyJQkuJuKj4iw1dokGhQ5Qf1qDmYVK9X1PdNwWox",
+    "name": "Example NFT #1"
+}
+```
+
+Altogether, our code should now look something like this:
+```
+require("dotenv").config();
+const API_URL = process.env.API_URL;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const PUBLIC_KEY = process.env.PUBLIC_KEY;
+
+const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
+const web3 = createAlchemyWeb3(API_URL);
+
+const contract = require("../artifacts/contracts/ExampleNFT.sol/ExampleNFT.json");
+// console.log(JSON.stringify(contract.abi));
+const contractAddress =
+    "0x6fc3a7ab7c9e3f2dd387b71ab942bb4694cc578e";
+const nftContract = new web3.eth.Contract(contract.abi, contractAddress);
+
+async function mintNFT(tokenURI) {
+    const nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, 'latest'); //get latest nonce
+
+    //the transaction
+    const tx = {
+        'from': PUBLIC_KEY,
+        'to': contractAddress,
+        'nonce': nonce,
+        'gas': 500000, //seems like a bad practice..?
+        'data': nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI()
+    };
+
+    const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
+    signPromise
+        .then((signedTx) => {
+            web3.eth.sendSignedTransaction(
+                signedTx.rawTransaction,
+                function (err, hash) {
+                    if (!err) {
+                        console.log(
+                            "The hash of your transaction is: ",
+                            hash,
+                            "\nCheck Alchemy's Mempool to view the status of your transaction!"
+                        )
+                    } else {
+                        console.log(
+                            "Something went wrong when submitting your transaction:",
+                            err
+                        )
+                    }
+                }
+            )
+        })
+        .catch((err) => {
+            console.log(" Promise failed:", err)
+        })
+}
+
+mintNFT(
+  "https://gateway.pinata.cloud/ipfs/QmY97uwnErm6jChWhJvCUXTh4ZNERdU4GAyuqX6Ey3FsCz"
+)
+```
+
+Now, run `node scripts/mint-nft.js` to deploy your NFT.
+After a few seconds, we should see a response like this in the terminal:
+```
+The hash of your transaction is:  0x5001b50225e50966326701de89954e0455db9f24284d54e62eee2595cd9da69a 
+
+Check Alchemy's Mempool to view the status of your transaction!
+```
+
+Now, visit either Alchemy mempool or Ropsten Etherscan block explorer to check the status of our transaction.
+It may take some time but we should eventually see a "Success" message stating that our MM wallet interacted with our contract at the txn hash above.
+We should tee that `Token ID [1] ExampleNFT (NFT)` was transferred from `0x000...000` (null address) to our MM wallet.
+
+Fin! We've officially deployed AND minted an NFT with our own smart contract on the Ethereum blockchain.
+
+We can mint as many NFTs as our heart desires, but be sure to pass in a new tokenURI each time describing the metadata--otherwise, we'll end up making a bunch of identical NFTs with different IDs.
+
+# Part.3 How to view your new NFT in your wallet.
